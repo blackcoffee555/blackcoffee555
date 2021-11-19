@@ -1,0 +1,16 @@
+import paramiko
+
+client = paramiko.client.SSHClient()
+ssh = paramiko.SSHClient()
+
+
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#key_filename - where locate your private key
+client.connect('ip_addr', username='login', password='password', key_filename='C:\\Users\\user\\private.ppk')
+stdin, stdout, stderr = client.exec_command("ip address print")
+
+stdin.channel.shutdown_write()
+print(f'STDOUT: {stdout.read().decode("utf8")}')
+stdin.close()
+stdout.close()
+client.close()
